@@ -6,7 +6,8 @@
     "build": "react-router build",
     "dev": "react-router dev",
     "start": "react-router-serve ./build/server/index.js",
-    "typecheck": "react-router typegen && tsc"
+    "typecheck": "react-router typegen && tsc",
+    "deploy:firebase": "npm run build && firebase deploy --only hosting:czn-deck-calculator"
   },
   "dependencies": {
     "@react-router/node": "^7.9.2",
