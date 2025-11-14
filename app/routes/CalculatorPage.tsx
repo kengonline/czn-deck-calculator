@@ -64,7 +64,9 @@ export default function CalculatorPage() {
       const basePoints = copySteps[stepIndex];
       
       let cardPoints = 0;
-      if (action.cardType === 'neutral') cardPoints = 20;
+      if (action.cardType === 'character') cardPoints = 0;
+      else if (action.cardType === 'characterDivine') cardPoints = 20;
+      else if (action.cardType === 'neutral') cardPoints = 20;
       else if (action.cardType === 'neutralUpgraded') cardPoints = 30;
       else if (action.cardType === 'neutralDivine') cardPoints = 40;
       else if (action.cardType === 'monster') cardPoints = 80;
@@ -284,7 +286,7 @@ export default function CalculatorPage() {
                     />
                   </label>
                   <label className="block">
-                    <span className="text-white text-sm">Starter/Divine Removes</span>
+                    <span className="text-white text-sm">Character/Divine Removes</span>
                     <input
                       type="number"
                       min="0"
@@ -307,6 +309,36 @@ export default function CalculatorPage() {
                   Steps: 0, 10, 30, 50, 70 pts + card value
                 </div>
                 <div className="space-y-3">
+                  <label className="block">
+                    <span className="text-white text-sm">Character (0 pts)</span>
+                    <input
+                      type="number"
+                      min="0"
+                      value={copyActions.filter(a => a.cardType === 'character').length}
+                      onChange={(e) => {
+                        const count = Math.max(0, parseInt(e.target.value) || 0);
+                        const others = copyActions.filter(a => a.cardType !== 'character');
+                        const newCopies = Array(count).fill({ cardType: 'character' });
+                        setCopyActions([...others, ...newCopies]);
+                      }}
+                      className="mt-1 w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                    />
+                  </label>
+                  <label className="block">
+                    <span className="text-white text-sm">Character Divine (20 pts)</span>
+                    <input
+                      type="number"
+                      min="0"
+                      value={copyActions.filter(a => a.cardType === 'characterDivine').length}
+                      onChange={(e) => {
+                        const count = Math.max(0, parseInt(e.target.value) || 0);
+                        const others = copyActions.filter(a => a.cardType !== 'characterDivine');
+                        const newCopies = Array(count).fill({ cardType: 'characterDivine' });
+                        setCopyActions([...others, ...newCopies]);
+                      }}
+                      className="mt-1 w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                    />
+                  </label>
                   <label className="block">
                     <span className="text-white text-sm">Neutral (20 pts)</span>
                     <input
