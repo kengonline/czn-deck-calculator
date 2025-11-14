@@ -3,6 +3,7 @@ import { Calculator, Info } from 'lucide-react';
 
 export default function CalculatorPage() {
   const [saveDataTier, setSaveDataTier] = useState(1);
+  const [divineCharacterCards, setDivineCharacterCards] = useState(0);
   const [neutralCards, setNeutralCards] = useState(0);
   const [upgradedNeutralCards, setUpgradedNeutralCards] = useState(0);
   const [divineNeutralCards, setDivineNeutralCards] = useState(0);
@@ -28,6 +29,9 @@ export default function CalculatorPage() {
 
   const calculation = useMemo(() => {
     const maxScore = (saveDataTier - 1) * 10 + 30;
+    
+    // Character cards
+    const characterTotal = divineCharacterCards * 20;
     
     // Neutral cards
     const neutralBase = neutralCards * 20;
@@ -73,7 +77,7 @@ export default function CalculatorPage() {
     // Conversion points
     const conversionTotal = conversions * 10;
     
-    const totalScore = neutralTotal + monsterTotal + forbiddenTotal + removeTotal + copyTotal + conversionTotal;
+    const totalScore = characterTotal + neutralTotal + monsterTotal + forbiddenTotal + removeTotal + copyTotal + conversionTotal;
     
     // Calculate percentage and danger level
     const percentage = maxScore > 0 ? (totalScore / maxScore) * 100 : 0;
@@ -122,7 +126,7 @@ export default function CalculatorPage() {
         monsterDivine
       }
     };
-  }, [saveDataTier, neutralCards, upgradedNeutralCards, divineNeutralCards, 
+  }, [saveDataTier, divineCharacterCards, neutralCards, upgradedNeutralCards, divineNeutralCards, 
       monsterCards, upgradedMonsterCards, divineMonsterCards, forbiddenCards,
       removeActions, copyActions, conversions]);
 
@@ -153,6 +157,22 @@ export default function CalculatorPage() {
                 </label>
                 <div className="mt-3 text-purple-200 text-sm">
                   Maximum Score: {calculation.maxScore}
+                </div>
+              </div>
+
+              <div className="bg-white/5 p-6 rounded-xl border border-white/10">
+                <h2 className="text-xl font-semibold text-blue-300 mb-4">Character Cards</h2>
+                <div className="space-y-3">
+                  <label className="block">
+                    <span className="text-white text-sm">Divine Upgraded (20 pts each)</span>
+                    <input
+                      type="number"
+                      min="0"
+                      value={divineCharacterCards}
+                      onChange={(e) => setDivineCharacterCards(Math.max(0, parseInt(e.target.value) || 0))}
+                      className="mt-1 w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </label>
                 </div>
               </div>
 
